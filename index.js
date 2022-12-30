@@ -24,6 +24,7 @@ async function run(){
             res.send(result)
         })
 
+        
         app.get('/post', async(req, res) => {
             const query = {};
             const posting = await postCollection.find(query).toArray();
