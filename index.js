@@ -17,11 +17,26 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run(){
     try{
         const postCollection = client.db('fireMedia').collection('post')
+
+        app.post("/post", async(req, res) => {
+            const post = req.body;
+            const result = await postCollection.insertOne(post);
+            res.send(result)
+        })
+
+        app.get('/post', async(req, res) => {
+            const query = {};
+            const posting = await postCollection.find(query).toArray();
+            res.send(posting)
+        })
+
     }
     finally{
 
     }
 } 
+
+run().catch(err => console.log(err))
 
 
 app.get('/', async(req, res) => {
