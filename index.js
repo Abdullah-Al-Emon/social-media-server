@@ -24,11 +24,28 @@ async function run(){
             res.send(result)
         })
 
-        
+
         app.get('/post', async(req, res) => {
             const query = {};
             const posting = await postCollection.find(query).toArray();
             res.send(posting)
+        })
+
+        app.put('/post/:id', async (req, res) =>
+        {
+            const id = req.params.id;
+            // const body = req.body;
+            // console.log(body)
+            // const like = body.like + 1;
+            const filter = { _id: ObjectId(id) }
+            const options = { upsert: true };
+            const updateDoc = {
+                $set: {
+                    like: "like",
+                }
+            }
+            const result = await postCollection.updateOne(filter, updateDoc, options)
+            res.send(result)
         })
 
     }
